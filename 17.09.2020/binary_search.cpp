@@ -11,12 +11,12 @@ int main()
 
 	std::vector <int> vec(size, 0);
 	std::cout << "please enter the numbers in the array separated by space in any order (please take into account that currently our programm supports only integer values):" << std::endl;
-	for (auto i = 0U; i < size; ++i)
+	for (auto i = 0U; i < vec.size(); ++i)
 	{
 		std::cin >> vec[i];
 	}
 
-	sort(vec.begin(), vec.end());
+	std::sort(vec.begin(), vec.end());
 
 	std::cout << "please enter the value to be found in this array:" << std::endl;
 	int unknown = 0;
@@ -25,11 +25,17 @@ int main()
 	int left = 0;
 	int right = size - 1;
 	int middle = 0;
+	bool flag = 1;
 
-	while (left <= right)
+	while (left <= right && flag)
 	{
-		middle = (left + right) / 2;
+		middle = left + (right - left)/2;
 
+		if (vec[middle] == unknown)
+		{
+			flag = 0;
+		}
+		
 		if (vec[middle] < unknown)
 		{
 			left = middle + 1;
@@ -37,20 +43,19 @@ int main()
 
 		else
 		{
-			if (vec[middle] > unknown)
-			{
 				right = middle - 1;
-			}
-
-			else
-			{
-				std::cout << "the " << unknown << " value was found" << std::endl;
-				return 0;
-			}
 		}
 	}
 
-	std::cout << "the " << unknown << " value was not found" << std::endl;
-
+	if (flag)
+	{
+		std::cout << "the " << unknown << " value was not found" << std::endl;
+	}
+	
+	else
+	{
+		std::cout << "the " << unknown << " value was found" << std::endl;
+	}
+	
 	return 0;
 }
