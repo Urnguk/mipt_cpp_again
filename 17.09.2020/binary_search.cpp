@@ -43,7 +43,7 @@ int main()
 
 		else
 		{
-				right = middle - 1;
+			right = middle - 1;
 		}
 	}
 
