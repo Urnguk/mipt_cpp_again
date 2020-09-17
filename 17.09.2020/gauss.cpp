@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <cmath>
 
+bool double_equal(double a, double b)
+{
+	return std::abs(a - b) <= std::numeric_limits <double> ::epsilon();
+}
+
 int main()
 {
 	std::size_t size = 0;
@@ -25,15 +30,15 @@ int main()
 	}
 
 	std::vector <int> null;
-	bool flag_zero = 0;
+	bool flag_zero = false;
 	
 	
 	for (auto i = 0U; i < size - 1; ++i)
 	{
-		if (matrix[i][i] == 0)
+		if (double_equal(matrix[i][i], 0.0))
 		{
 			auto j = i + 1;
-			while (j < size && matrix[j][i] == 0)
+			while (j < size && double_equal(matrix[j][i], 0.0))
 			{
 				++j;
 			}
@@ -64,7 +69,7 @@ int main()
 
 	for (auto i = 1U; i < size; ++i)
 	{
-		if (matrix[i][i] == 0)
+		if (double_equal(matrix[i][i], 0.0))
 		{
 			continue;
 		}
@@ -83,9 +88,9 @@ int main()
 	{
 		for (auto index : null)
 		{
-			if (matrix[index][size] != 0)
+			if (! double_equal(matrix[index][size], 0.0))
 			{
-				flag_zero = 1;
+				flag_zero = true;
 				break;
 			}
 		}
