@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
-void print(std::vector <int> A)
+void print(const std::vector <int>& A)
 {
 	for (auto element : A)
 	{
@@ -13,11 +13,11 @@ void print(std::vector <int> A)
 	return;
 }
 
-void merge_sort(std::vector <int> & array, int left, int right);
+void merge_sort(std::vector <int>& array, int left, int right);
 
-void split(std::vector <int> & A, std::vector <int> & B, int left, int right);
+void split(std::vector <int>& A, std::vector <int>& B, int left, int right);
 
-void merge(std::vector <int> & A, std::vector <int> & B, int left, int right);
+void merge(std::vector <int>& A, std::vector <int>& B, int left, int right);
 
 int main()
 {
@@ -39,26 +39,22 @@ int main()
 	return 0;
 }
 
-void merge_sort(std::vector <int> & array, int left, int right)
+void merge_sort(std::vector <int>& array, int left, int right)
 {
-	std::vector <int> copy(array.size(), 0);
-	for (auto i = 0; i < array.size(); ++i)
-	{
-		copy[i] = array[i];
-	}
+	std::vector <int> copy = array;
 
 	split(copy, array, left, right);
 
 	return;
 }
 
-void split(std::vector <int> & A, std::vector <int> & B, int left, int right)
+void split(std::vector <int>& A, std::vector <int>& B, int left, int right)
 {
 	if (left == right)
 	{
 		return;
 	}
-	
+
 	int middle = (left + right) / 2;
 
 	split(B, A, left, middle);
@@ -69,7 +65,7 @@ void split(std::vector <int> & A, std::vector <int> & B, int left, int right)
 	return;
 }
 
-void merge(std::vector <int> & A, std::vector <int> & B, int left, int right)
+void merge(std::vector <int>& A, std::vector <int>& B, int left, int right)
 {
 	int i = left;
 	int middle = (left + right) / 2;
