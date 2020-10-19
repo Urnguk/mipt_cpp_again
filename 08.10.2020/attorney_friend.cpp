@@ -40,9 +40,9 @@ public:
 	Friend(int v = 0) : value(v) {}
 	~Friend() = default;
 
-	void get_value(Attorney& attorney, Grantor& grantor)
+	void get_value(Grantor& grantor)
 	{
-		value = attorney.get(grantor);
+		value = Attorney::get(grantor);
 	}
 
 	int return_value()
@@ -58,11 +58,11 @@ int main()
 {
 	Grantor A;
 	Friend B(3);
-	Attorney T;
+	
 
 	std::cout << B.return_value() << std::endl;
 
-	B.get_value(T, A);
+	B.get_value(A);
 	std::cout << B.return_value() << std::endl;
 
 	return EXIT_SUCCESS;
