@@ -16,8 +16,7 @@ int main()
 	proton.move(time);
 	alpha.move(time);
 
-	print(proton);
-	print(alpha);
+	std::cout << proton << std::endl << alpha << std::endl;
 
 	return 0;
 }
