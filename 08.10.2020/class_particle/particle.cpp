@@ -5,24 +5,16 @@
 
 #include "particle.hpp"
 
-inline double radius_vector(double x, double y, double z)
-{
-	return std::pow(x * x + y * y + z * z, 0.5);
-}
-
 Particle::Particle(double coord_1, double coord_2, double coord_3, int m, int ch,
-	double vx, double vy, double vz, double ax, double ay, double az): 
-	x(coord_1), y(coord_2), z(coord_3), mass(m), charge(ch), 
+	double vx, double vy, double vz, double ax, double ay, double az) :
+	x(coord_1), y(coord_2), z(coord_3), mass(m), charge(ch),
 	v_x(vx), v_y(vy), v_z(vz), a_x(ax), a_y(ay), a_z(az) {}
 
-double Particle::distance() const
+std::ostream& operator<< (std::ostream& out, const Particle observed)
 {
-	return radius_vector(x, y, z);
-}
-
-double Particle::velocity() const
-{
-	return radius_vector(v_x, v_y, v_z);
+	out << "The particle moved to the distance of: " << observed.distance() << std::endl
+		<< "with the velocity of: " << observed.velocity();
+	return out;
 }
 
 void Particle::move(double time_step)
@@ -34,12 +26,6 @@ void Particle::move(double time_step)
 	x += v_x * time_step;
 	y += v_y * time_step;
 	z += v_z * time_step;
-}
-
-void print(Particle& observed)
-{
-	std::cout << "The particle moved to the distance of: " << observed.distance() << std::endl
-		<< "with the velocity of: " << observed.velocity() << std::endl;
 }
 
 void interaction(Particle& A, Particle& B)
