@@ -1,5 +1,10 @@
 #pragma once
 
+inline double radius_vector(double x, double y, double z)
+{
+	return std::pow(x * x + y * y + z * z, 0.5);
+}
+
 class Particle
 {
 public:
@@ -7,11 +12,13 @@ public:
 		double vx = 0.0, double vy = 0.0, double vz = 0.0, double ax = 0.0, double ay = 0.0, double az = 0.0);
 	~Particle() = default;
 
-	double distance() const;
-	double velocity() const;
+	double distance() const { return radius_vector(x, y, z); }
+	double velocity() const { return radius_vector(v_x, v_y, v_z); }
 
 	void move(double time_step);
 	friend void interaction(Particle& A, Particle& B);
+
+	friend std::ostream& operator<< (std::ostream& out, const Particle observed);
 
 private:
 
@@ -28,7 +35,5 @@ private:
 	double a_z;
 
 	int mass;
-	short charge;
+	int charge;
 };
-
-void print(Particle& observed);
