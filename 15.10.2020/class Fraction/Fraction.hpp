@@ -34,6 +34,9 @@ public:
 	Fraction& operator*=(const Fraction& other);
 	Fraction& operator/=(const Fraction& other);
 
+	Fraction& operator=(const Fraction& other);
+	Fraction& operator=(const Fraction&& other);
+
 	friend Fraction operator+(const Fraction& frac_1, const Fraction& frac_2);
 	friend Fraction operator-(const Fraction& frac_1, const Fraction& frac_2);
 	friend Fraction operator*(const Fraction& frac_1, const Fraction& frac_2);
