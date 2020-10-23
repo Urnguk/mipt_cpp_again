@@ -213,8 +213,7 @@ bool operator!=(const Fraction& frac_1, const Fraction& frac_2)
 
 bool operator>=(const Fraction& frac_1, const Fraction& frac_2)
 {
-	int divisor = greatest_common_divisor(frac_1.down, frac_2.down);
-	if ((frac_1.up * (frac_2.down/divisor) - frac_2.up * (frac_1.down / divisor)) >= 0)
+	if (frac_1.up * frac_2.down >= frac_2.up * frac_1.down)
 	{
 		return true;
 	}
@@ -223,8 +222,7 @@ bool operator>=(const Fraction& frac_1, const Fraction& frac_2)
 
 bool operator<=(const Fraction& frac_1, const Fraction& frac_2)
 {
-	int divisor = greatest_common_divisor(frac_1.down, frac_2.down);
-	if ((frac_1.up * (frac_2.down / divisor) - frac_2.up * (frac_1.down / divisor)) <= 0)
+	if (frac_1.up * frac_2.down <= frac_2.up * frac_1.down)
 	{
 		return true;
 	}
@@ -233,8 +231,7 @@ bool operator<=(const Fraction& frac_1, const Fraction& frac_2)
 
 bool operator>(const Fraction& frac_1, const Fraction& frac_2)
 {
-	int divisor = greatest_common_divisor(frac_1.down, frac_2.down);
-	if ((frac_1.up * (frac_2.down / divisor) - frac_2.up * (frac_1.down / divisor)) > 0)
+	if (frac_1.up * frac_2.down > frac_2.up * frac_1.down)
 	{
 		return true;
 	}
@@ -243,8 +240,7 @@ bool operator>(const Fraction& frac_1, const Fraction& frac_2)
 
 bool operator<(const Fraction& frac_1, const Fraction& frac_2)
 {
-	int divisor = greatest_common_divisor(frac_1.down, frac_2.down);
-	if ((frac_1.up * (frac_2.down / divisor) - frac_2.up * (frac_1.down / divisor)) < 0)
+	if (frac_1.up * frac_2.down < frac_2.up * frac_1.down)
 	{
 		return true;
 	}
