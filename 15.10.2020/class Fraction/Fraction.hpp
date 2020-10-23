@@ -25,9 +25,9 @@ public:
 	void set_down(int y);
 
 	Fraction& operator++();
-	Fraction& operator++(int);
+	Fraction operator++(int);
 	Fraction& operator--();
-	Fraction& operator--(int);
+	Fraction operator--(int);
 
 	Fraction& operator+=(const Fraction& other);
 	Fraction& operator-=(const Fraction& other);
