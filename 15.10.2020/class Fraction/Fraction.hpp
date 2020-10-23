@@ -4,11 +4,11 @@
 
 int greatest_common_divisor(int x, int y);
 
+
 class Fraction
 {
 public:
-	explicit Fraction(int x = 0, int y = 1);
-	Fraction(double x = 0.0, double y = 1.0);
+	Fraction(int x = 0, int y = 1);
 	~Fraction() = default;
 
 	inline int get_up() const
@@ -30,6 +30,13 @@ public:
 		reduction();
 	}
 
+	Fraction& operator++();
+	Fraction& operator++(int);
+
+	Fraction& operator--();
+	Fraction& operator--(int);
+
+	friend std::ostream& operator<< (std::ostream& out, const Fraction& fraction);
 
 private:
 	int up;
