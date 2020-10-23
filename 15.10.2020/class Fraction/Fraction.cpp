@@ -74,9 +74,9 @@ Fraction& Fraction::operator++()
 	reduction();
 	return *this;
 }
-Fraction& Fraction::operator++(int)
+Fraction Fraction::operator++(int)
 {
-	Fraction Temp(up, down);
+	Fraction Temp(*this);
 	up += down;
 	reduction();
 	return Temp;
@@ -88,9 +88,9 @@ Fraction& Fraction::operator--()
 	reduction();
 	return *this;
 }
-Fraction& Fraction::operator--(int)
+Fraction Fraction::operator--(int)
 {
-	Fraction Temp(up, down);
+	Fraction Temp(*this);
 	up -= down;
 	reduction();
 	return Temp;
