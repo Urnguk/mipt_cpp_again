@@ -143,6 +143,28 @@ Fraction& Fraction::operator/=(const Fraction& other)
 	return *this;
 }
 
+Fraction& Fraction::operator=(const Fraction& other)
+{
+	if (*this == other)
+	{
+		return *this;
+	}
+	up = other.up;
+	down = other.down;
+	return *this;
+}
+
+Fraction& Fraction::operator=(const Fraction&& other)
+{
+	if (*this == other)
+	{
+		return *this;
+	}
+	up = other.up;
+	down = other.down;
+	return *this;
+}
+
 Fraction operator+(const Fraction& frac_1, const Fraction& frac_2)
 {
 	Fraction result(frac_1);
