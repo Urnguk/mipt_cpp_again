@@ -7,19 +7,7 @@
 
 int greatest_common_divisor(int x, int y)
 {
-	while (x != 0 && y != 0)
-	{
-		if (x > y)
-		{
-			x %= y;
-		}
-		else
-		{
-			y %= x;
-		}
-	}
-
-	return (x + y);
+	return (y == 0) ? x : greatest_common_divisor(y, x % y);
 }
 
 Fraction::Fraction(int x, int y) :
@@ -27,7 +15,8 @@ Fraction::Fraction(int x, int y) :
 {
 	if (y == 0)
 	{
-		denominator = 1;
+		std::cerr << "Error: there was an attempt to divide by zero" << std::endl;
+		abort();
 	}
 	if (y < 0)
 	{
@@ -58,7 +47,8 @@ void Fraction::set_denominator(int y)
 {
 	if (y == 0)
 	{
-		y = 1;
+		std::cerr << "Error: there was an attempt to divide by zero" << std::endl;
+		abort();
 	}
 	if (y < 0)
 	{
@@ -130,14 +120,16 @@ Fraction& Fraction::operator*=(const Fraction& other)
 
 Fraction& Fraction::operator/=(const Fraction& other)
 {
-	
+
 	numerator *= other.denominator;
 	denominator *= other.numerator;
 
 	if (denominator == 0)
 	{
-		denominator = 1;
+		std::cerr << "Error: there was an attempt to divide by zero" << std::endl;
+		abort();
 	}
+
 	reduction();
 
 	return *this;
@@ -209,7 +201,7 @@ bool operator>=(const Fraction& frac_1, const Fraction& frac_2)
 
 bool operator<(const Fraction& frac_1, const Fraction& frac_2)
 {
-	if (frac_1 >= frac_2 )
+	if (frac_1 >= frac_2)
 	{
 		return false;
 	}
