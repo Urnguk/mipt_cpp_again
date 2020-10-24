@@ -9,20 +9,12 @@ class Fraction
 {
 public:
 	Fraction(int x = 0, int y = 1);
-	Fraction(const Fraction& fraction);
-	Fraction(Fraction&& fraction);
 	~Fraction() = default;
 
-	inline int get_up() const
-	{
-		return up;
-	}
-	inline unsigned int get_down() const
-	{
-		return down;
-	}
-	void set_up(int x);
-	void set_down(int y);
+	int get_numerator() const { return numerator; }
+	int get_denominator() const { return denominator;	}
+	void set_numerator(int x);
+	void set_denominator(int y);
 
 	Fraction& operator++();
 	Fraction operator++(int);
@@ -33,9 +25,6 @@ public:
 	Fraction& operator-=(const Fraction& other);
 	Fraction& operator*=(const Fraction& other);
 	Fraction& operator/=(const Fraction& other);
-
-	Fraction& operator=(const Fraction& other);
-	Fraction& operator=(const Fraction&& other);
 
 	friend Fraction operator+(const Fraction& frac_1, const Fraction& frac_2);
 	friend Fraction operator-(const Fraction& frac_1, const Fraction& frac_2);
@@ -53,11 +42,11 @@ public:
 	friend std::ostream& operator<< (std::ostream& out, const Fraction& fraction);
 	friend std::istream& operator>> (std::istream& in, Fraction& fraction);
 
-	explicit operator double() const { return double(up) / double(down); }
+	explicit operator double() const { return static_cast<double>(numerator) / denominator; }
 
 private:
-	int up;
-	unsigned int down;
+	int numerator;
+	int denominator;
 
 	void reduction();
 };
