@@ -8,10 +8,13 @@ int main()
 	int size = 0;
 	try
 	{
-		std::cin >> size;
+		if((!std::cin >> size))
+		{
+			throw "invalid input data";
+		}
 		if (size <= 0)
 		{
-			throw size;
+			throw "the size of array must be greater than zero";
 		}
 		int* A = new int[size];
 
@@ -30,10 +33,6 @@ int main()
 	{
 		std::cerr << "An error occured: " << error << std::endl;
 		
-	}
-	catch (int)
-	{
-		std::cerr << "An error occured: the size of array must be greater than zero" << std::endl;
 	}
 
 	std::cout << std::endl;
