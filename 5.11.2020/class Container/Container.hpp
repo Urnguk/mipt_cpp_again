@@ -32,7 +32,15 @@ public:
 				set(container.get(i), i);
 			}
 		}
+		else
+		{
+			data = nullptr;
+		}
 		
+	}
+	Container(Container <T>&& container) : length(container.size()), data(container.data)
+	{
+		container.data = nullptr;
 	}
 
 	~Container()
@@ -47,7 +55,7 @@ public:
 	{
 		if (this == &container)
 		{
-			return this;
+			return *this;
 		}
 
 		if (length)
@@ -56,12 +64,40 @@ public:
 		}
 
 		length = container.size();
-		data = new T[length];
-		for (auto i = 0U; i < length; ++i)
+
+		if (length)
 		{
-			set(container.get(i), i);
+			data = new T[length];
+			for (auto i = 0U; i < length; ++i)
+			{
+				set(container.get(i), i);
+			}
 		}
-		return this;
+		else
+		{
+			data = nullptr;
+		}
+		
+		return *this;
+	}
+
+	Container <T>& operator= (Container <T>&& container)
+	{
+		if (this == &container)
+		{
+			return *this;
+		}
+
+		if (length)
+		{
+			delete[] data;
+		}
+
+		length = container.size();
+		data = container.data;
+		container.data = nullptr;
+
+		return *this;
 	}
 
 	friend bool operator== (const Container <T>& container_1, const Container <T>& container_2)
