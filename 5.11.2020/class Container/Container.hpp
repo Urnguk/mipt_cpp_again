@@ -29,7 +29,7 @@ public:
 			data = new T[length];
 			for (auto i = 0U; i < length; ++i)
 			{
-				set(container.get(i), i);
+				data[i] = container.data[i];
 			}
 		}
 		else
@@ -70,7 +70,7 @@ public:
 			data = new T[length];
 			for (auto i = 0U; i < length; ++i)
 			{
-				set(container.get(i), i);
+				data[i] = container.data[i];
 			}
 		}
 		else
@@ -127,7 +127,7 @@ public:
 		return length;
 	}
 
-	void push(T value, int_s index = length - 1)
+	void push(T value, int_s index)
 	{
 		resize(length + 1);
 		data[length - 1] = value;
@@ -137,7 +137,7 @@ public:
 		}
 	}
 
-	T pop(int_s index = length - 1)
+	T pop(int_s index)
 	{
 		T return_value = data[index];
 		for (auto i = index; i < length - 1; ++i)
@@ -145,6 +145,7 @@ public:
 			swap(i, i + 1);
 		}
 		resize(length - 1);
+		return return_value;
 	}
 
 	T get(int_s index = 0)
@@ -169,12 +170,13 @@ protected:
 			delete[] data;
 			data = new_data;
 			length = size;
-			delete new_data;
+			new_data = nullptr;
 		}
 		else
 		{
 			delete[] data;
 			length = 0;
+			data = nullptr;
 		}
 	}
 	
