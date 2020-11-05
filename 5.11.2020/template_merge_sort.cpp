@@ -19,7 +19,7 @@ template <typename T, typename F>
 void merge_sort(T* array, std::size_t size, F cmp)
 {
 	T* copy = new T[size];
-	
+
 	for (auto i = 0U; i < size; ++i)
 	{
 		copy[i] = array[i];
@@ -43,7 +43,7 @@ void split(T* A, T* B, int left, int right, F cmp)
 	int middle = (left + right) / 2;
 
 	split(B, A, left, middle, cmp);
-	split(B, A, middle+1, right, cmp);
+	split(B, A, middle + 1, right, cmp);
 
 	merge(A, B, left, right, cmp);
 	return;
@@ -56,7 +56,7 @@ void merge(T* A, T* B, int left, int right, F cmp)
 	int middle = (left + right) / 2;
 	int j = middle + 1;
 
-	for (auto k = left; k < right; ++k)
+	for (auto k = left; k <= right; ++k)
 	{
 		if (i <= middle && (j > right || cmp(A[i], A[j])))
 		{
@@ -82,9 +82,9 @@ int main()
 	{
 		std::cin >> A[i];
 	}
-	
 
-	merge_sort(A, N, [](int x, int y) {return x > y; });
+
+	merge_sort(A, N, [](int x, int y) {return x < y; });
 	print_array(A, N);
 	return EXIT_SUCCESS;
 }
