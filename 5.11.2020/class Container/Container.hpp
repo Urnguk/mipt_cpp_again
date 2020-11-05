@@ -13,22 +13,70 @@ public:
 	{
 		length = 0;
 		data = nullptr;
-		memory = false;
+		
 	}
 	Container(T value)
 	{
 		length = 1;
 		data = new T[length];
 		data[0] = value;
-		memory = true;
+		
+	}
+	Container(const Container <T>& container) : length(container.size())
+	{
+		if (length)
+		{
+			data = new T[length];
+			for (auto i = 0U; i < length; ++i)
+			{
+				set(container.get(i), i);
+			}
+		}
+		
 	}
 
 	~Container()
 	{
-		if (memory)
+		if (length)
 		{
 			delete[] data;
 		}
+	}
+
+	Container <T>& operator= (const Container <T>& container)
+	{
+		if (this == &container)
+		{
+			return this;
+		}
+
+		if (length)
+		{
+			delete[] data;
+		}
+
+		length = container.size();
+		data = new T[length];
+		for (auto i = 0U; i < length; ++i)
+		{
+			set(container.get(i), i);
+		}
+		return this;
+	}
+
+	friend bool operator== (const Container <T>& container_1, const Container <T>& container_2)
+	{
+		if (container_1.length() == container_2.length())
+		{
+			for (auto i = 0U; i < container_1.length(); ++i) {
+				if (container_1.get(i) != container_2.get(i))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	void swap(int_s i, int_s j)
@@ -38,7 +86,7 @@ public:
 		data[j] = tmp;
 	}
 
-	int size()
+	int_s size() const
 	{
 		return length;
 	}
@@ -62,6 +110,16 @@ public:
 		}
 		resize(length - 1);
 	}
+
+	T get(int_s index = 0)
+	{
+		return data[index];
+	}
+
+	void set(T value, int_s index = 0)
+	{
+		data[index] = value;
+	}
 protected:
 	void resize(int_s size)
 	{
@@ -74,19 +132,17 @@ protected:
 			}
 			delete[] data;
 			data = new_data;
-			memory = true;
 			length = size;
+			delete new_data;
 		}
 		else
 		{
 			delete[] data;
 			length = 0;
-			memory = false;
 		}
 	}
 	
 private:
 	T* data;
 	int_s length;
-	bool memory;
 };
