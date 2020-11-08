@@ -22,11 +22,16 @@ public:
 
 
 	Container() : m_length(0), m_data(nullptr) {}
+	Container(value_type value) : m_length(1)
+	{
+		m_data = new value_type[m_length];
+		m_data[0] = value;
+	}
 	Container(const_pointer array, size_type N) : m_length(N)
 	{
 		if (m_length)
 		{
-			m_data = new value_type[m_length]
+			m_data = new value_type[m_length];
 			for (index_type i = 0U; i < m_length; ++i)
 			{
 				m_data[i] = array[i];
@@ -42,7 +47,7 @@ public:
 	{
 		if (m_length)
 		{
-			m_data = new value_type[m_length]
+			m_data = new value_type[m_length];
 				for (index_type i = 0U; i < m_length; ++i)
 				{
 					m_data[i] = container.m_data[i];
@@ -53,7 +58,7 @@ public:
 			m_data = nullptr;
 		}
 	}
-	Container(Container&& container) : length(container.size()), data(container.data)
+	Container(Container&& container) : m_length(container.size()), m_data(container.data)
 	{
 		container.m_data = nullptr;
 		container.m_length = 0;
@@ -99,7 +104,7 @@ public:
 		}
 
 		
-		delete[] data;
+		delete[] m_data;
 
 		m_length = container.m_length;
 		m_data = container.m_data;
@@ -125,9 +130,19 @@ public:
 		return false;
 	}
 
+	value_type operator[] (index_type index) const
+	{
+		return m_data[index];
+	}
+
+	value_type& operator[] (index_type index)
+	{
+		return m_data[index];
+	}
+
 	void swap_elements(index_type i, index_type j)
 	{
-		std::swap(m_data[i], m_data[j])
+		std::swap(m_data[i], m_data[j]);
 	}
 
 	void swap(array_reference other)
@@ -136,19 +151,14 @@ public:
 		std::swap(other.m_data, m_data);
 	}
 
+	friend void swap(array_reference container_1, array_reference container_2)
+	{
+		container_1.swap(container_2);
+	}
+
 	size_type size() const
 	{
 		return m_length;
-	}
-
-	value_type get(index_type index = 0)
-	{
-		return m_data[index];
-	}
-
-	void set(value_type value, index_type index = 0)
-	{
-		m_data[index] = value;
 	}
 
 	void resize(index_type size)
