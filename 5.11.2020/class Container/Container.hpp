@@ -3,109 +3,119 @@
 #include <algorithm>
 #include <type_traits>
 
-using int_s = std::size_t;
+
 
 template <typename T>
 class Container
 {
 public:
-	Container()
+	
+	using size_type = std::size_t;
+	using index_type = unsigned int;
+	using value_type = T;
+
+	using array_reference = Container<T>&;
+	using const_array_reference = const Container<T>&;
+
+	using pointer = T*;
+	using const_pointer = const T*;
+
+
+	Container() : m_length(0), m_data(nullptr) {}
+	Container(const_pointer array, size_type N) : m_length(N)
 	{
-		length = 0;
-		data = nullptr;
-		
-	}
-	Container(T value)
-	{
-		length = 1;
-		data = new T[length];
-		data[0] = value;
-		
-	}
-	Container(const Container <T>& container) : length(container.size())
-	{
-		if (length)
+		if (m_length)
 		{
-			data = new T[length];
-			for (auto i = 0U; i < length; ++i)
+			m_data = new value_type[m_length]
+			for (index_type i = 0U; i < m_length; ++i)
 			{
-				data[i] = container.data[i];
+				m_data[i] = array[i];
 			}
+		}
+		else 
+		{
+			m_data = nullptr;
+		}
+		
+	}
+	Container(const_array_reference container) : m_length(container.size()), m_data(new value_type[m_length])
+	{
+		if (m_length)
+		{
+			m_data = new value_type[m_length]
+				for (index_type i = 0U; i < m_length; ++i)
+				{
+					m_data[i] = container.m_data[i];
+				}
 		}
 		else
 		{
-			data = nullptr;
+			m_data = nullptr;
 		}
-		
 	}
-	Container(Container <T>&& container) : length(container.size()), data(container.data)
+	Container(Container&& container) : length(container.size()), data(container.data)
 	{
-		container.data = nullptr;
+		container.m_data = nullptr;
+		container.m_length = 0;
 	}
 
 	~Container()
 	{
-		if (length)
-		{
-			delete[] data;
-		}
+		delete[] m_data;
 	}
 
-	Container <T>& operator= (const Container <T>& container)
+	Container& operator= (const_array_reference container)
 	{
 		if (this == &container)
 		{
 			return *this;
 		}
 
-		if (length)
-		{
-			delete[] data;
-		}
+		delete[] m_data;
 
-		length = container.size();
+		m_length = container.m_length;
 
-		if (length)
+		if (m_length)
 		{
-			data = new T[length];
-			for (auto i = 0U; i < length; ++i)
+			m_data = new value_type[m_length];
+			for (index_type i = 0U; i < m_length; ++i)
 			{
-				data[i] = container.data[i];
+				m_data[i] = container.m_data[i];
 			}
 		}
 		else
 		{
-			data = nullptr;
+			m_data = nullptr;
 		}
 		
 		return *this;
 	}
 
-	Container <T>& operator= (Container <T>&& container)
+	Container& operator= (Container&& container)
 	{
 		if (this == &container)
 		{
 			return *this;
 		}
 
-		if (length)
-		{
-			delete[] data;
-		}
+		
+		delete[] data;
 
-		length = container.size();
-		data = container.data;
-		container.data = nullptr;
+		m_length = container.m_length;
+		m_data = container.m_data;
+	
+		container.m_length = 0;
+		container.m_data = nullptr;
 
 		return *this;
 	}
 
-	friend bool operator== (const Container <T>& container_1, const Container <T>& container_2)
+	friend bool operator== (const_array_reference container_1, const_array_reference container_2)
 	{
-		if (container_1.length() == container_2.length())
+		if (container_1.m_length == container_2.m_length)
 		{
-			for (auto i = 0U; i < container_1.length(); ++i) {
-				if (container_1.get(i) != container_2.get(i))
+			for (index_type i = 0U; i < container_1.m_length; ++i) {
+				if (container_1.m_data[i] != container_2.m_data[i])
 				{
 					return false;
 				}
@@ -115,72 +125,57 @@ public:
 		return false;
 	}
 
-	void swap(int_s i, int_s j)
+	void swap_elements(index_type i, index_type j)
 	{
-		T tmp = data[i];
-		data[i] = data[j];
-		data[j] = tmp;
+		std::swap(m_data[i], m_data[j])
 	}
 
-	int_s size() const
+	void swap(array_reference other)
 	{
-		return length;
+		std::swap(other.m_length, m_length);
+		std::swap(other.m_data, m_data);
 	}
 
-	void push(T value, int_s index)
+	size_type size() const
 	{
-		resize(length + 1);
-		data[length - 1] = value;
-		for (auto i = length - 1; i > index; --i)
+		return m_length;
+	}
+
+	value_type get(index_type index = 0)
+	{
+		return m_data[index];
+	}
+
+	void set(value_type value, index_type index = 0)
+	{
+		m_data[index] = value;
+	}
+
+	void resize(index_type size)
+	{
+		if (size > 0)
 		{
-			swap(i, i - 1);
-		}
-	}
-
-	T pop(int_s index)
-	{
-		T return_value = data[index];
-		for (auto i = index; i < length - 1; ++i)
-		{
-			swap(i, i + 1);
-		}
-		resize(length - 1);
-		return return_value;
-	}
-
-	T get(int_s index = 0)
-	{
-		return data[index];
-	}
-
-	void set(T value, int_s index = 0)
-	{
-		data[index] = value;
-	}
-protected:
-	void resize(int_s size)
-	{
-		if (size != 0)
-		{
-			T* new_data = new T[size];
-			for (auto i = 0; i < std::min(length, size); ++i)
+			pointer new_data = new value_type[size];
+			for (index_type i = 0; i < std::min(m_length, size); ++i)
 			{
-				new_data[i] = data[i];
+				new_data[i] = m_data[i];
 			}
-			delete[] data;
-			data = new_data;
-			length = size;
+			delete[] m_data;
+
+			m_data = new_data;
+			m_length = size;
+
 			new_data = nullptr;
 		}
 		else
 		{
-			delete[] data;
-			length = 0;
-			data = nullptr;
+			delete[] m_data;
+			m_length = 0;
+			m_data = nullptr;
 		}
 	}
 	
 private:
-	T* data;
-	int_s length;
+	pointer m_data;
+	size_type m_length;
 };
