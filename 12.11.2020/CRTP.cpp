@@ -27,6 +27,12 @@ public:
 int main()
 {
 	My_class* A = new My_class();
+	My_class* B = new My_special_class();
+
+	A->print();
+	B->print();
+
 	delete A;
+	delete B;
 	return EXIT_SUCCESS;
 }
