@@ -3,6 +3,9 @@
 class My_class
 {
 public:
+	My_class() = default;
+	virtual ~My_class() = default;
+
 	virtual void print()
 	{
 		std::cout << "My class was printed" << std::endl;
@@ -12,6 +15,9 @@ public:
 class My_special_class : public My_class
 {
 public:
+	My_special_class() = default;
+	~My_special_class() = default;
+
 	virtual void print() override
 	{
 		std::cout << "My special class was printed" << std::endl;
@@ -36,8 +42,6 @@ public:
 class Heir : public Base<Heir>
 {
 public:
-	friend class Base<Heir>;
-
 	void print()
 	{
 		std::cout << "Heir was printed" << std::endl;
