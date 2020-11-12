@@ -40,5 +40,6 @@ int main()
 {
 	My_class* example = factory<My_class>(3, 4.2, 'c');
 	example->print();
+	delete example;
 	return EXIT_SUCCESS;
 }
