@@ -3,7 +3,6 @@
 class My_class
 {
 public:
-	My_class() = default;
 	virtual ~My_class() = default;
 
 	virtual void print()
@@ -15,8 +14,7 @@ public:
 class My_special_class : public My_class
 {
 public:
-	My_special_class() = default;
-	~My_special_class() = default;
+	virtual ~My_special_class() = default;
 
 	virtual void print() override
 	{
@@ -33,6 +31,7 @@ private:
 		return static_cast<Type*>(this);
 	}
 public:
+	virtual ~Base() = default;
 	void print()
 	{
 		Me()->print();
@@ -42,6 +41,7 @@ public:
 class Heir : public Base<Heir>
 {
 public:
+	virtual ~Heir() = default;
 	void print()
 	{
 		std::cout << "Heir was printed" << std::endl;
